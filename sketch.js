@@ -78,13 +78,58 @@ function setup() {
   while (pageList.length<(numRows-1)){
     let listLine = new pageList.Sprite()
     listLine.y = ((jiraOriginY + 200) + (textHeight*(pageList.length)))
-
     listLine.w = pageListWidth
     listLine.h = 0
     listLine.stroke=230
   }
 
-  numColms = 5
+
+
+  // numColms = 5
+
+  pageListColms = new Group()
+  pageListColms.collider='s'
+  pageListColms.color=230
+  pageListColms.stroke=0
+  pageListColms.strokeWeight=0.5
+
+  // pageListColms.y = 460
+  //first list line y -text height. move below h to use h (why adding extra text height?)
+  pageListColms.w = 0
+  pageListColms.h = textHeight*(numRows-1)
+  pageListColms.y = (jiraOriginY + 200) + (pageListColms.h/2) +textHeight
+
+  //pageList.x = jiraOriginX+575. pageList.x - ( pageListWidth = jiraPage.w-400 /2)
+  let colmKey = new pageListColms.Sprite()
+  // colmKey.x= 550
+  // colmKey.x = (pageList.x - (pageList.w/2)) + 100
+  colmKey.x = pageList.x - 250
+  let colmSum = new pageListColms.Sprite()
+  colmSum.x = 750
+  let colmStat = new pageListColms.Sprite()
+  colmStat.x = 850
+  let colmAssign = new pageListColms.Sprite()
+  colmAssign.x = 1000
+  // let colmPrio = new pageListColms.Sprite()
+  // colmPrio.x = 1050
+
+  //refactor into array?
+  // let colmArray = []
+  // while(colmArray.length < 4){
+  //   let colm = new pageListColms.Sprite()
+  // }
+
+  // colm[1].x=750
+
+
+  // while (pageListColms.length<(numColms-1)){
+  //   let listColms = new pageListColms.Sprite()
+  //   listColms.y = ((jiraOriginY + 200) + (textHeight*(listColms.length)))
+
+  //   listColms.w = pageListWidth
+  //   listColms.h = 0
+  //   listColms.stroke=230
+  // }
 
 
  
