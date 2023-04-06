@@ -8,9 +8,13 @@ let listEnd, listEndY;
 let keyGroup, keyArray, key, keyGY;
 
 let newHireBox;
+let listLine
 
 function setup() {
   createCanvas(1400, 2400);
+
+  textHeight = 30
+  numRows = 13
 
   jiraPage = new Sprite(700, 400, 1000, 700)
   jiraPage.collider='s'
@@ -34,6 +38,87 @@ function setup() {
   pageLine2 = new pageLine.Sprite([[jiraOriginX+250, jiraOriginY+50], [jiraOriginX+250, jiraEndY-2]])
   pageLine3 = new pageLine.Sprite([[jiraOriginX+275, jiraOriginY+150], [jiraEndX-25, jiraOriginY+150]])
 
+  tabColor = 240
+  //can assign these sprites images
+
+  let topBar = new Group()
+  topBar.collider = 's'
+  topBar.color = tabColor
+  topBar.stroke = topBar.color
+  topBar.y = pageLine1.y - 25
+  topBar.h = textHeight * 0.75
+  let siteIcon = new topBar.Sprite()
+  siteIcon.x = jiraOriginX + 35
+  siteIcon.w = pageLine1.w * 0.025
+  siteIcon.h = siteIcon.w 
+  let siteLogo = new topBar.Sprite()
+  siteLogo.w = pageLine1.w * 0.25
+  // siteLogo.x = jiraOriginX + (siteLogo.w*0.75)
+  siteLogo.x = 15 + (siteIcon.x + (siteIcon.w/2)) + siteLogo.w/2
+  let siteTabs = new topBar.Sprite()
+  siteTabs.w = pageLine1.w * 0.3
+  siteTabs.x = 15 + (siteLogo.x + (siteLogo.w/2)) + siteTabs.w/2
+  let searchAccount = new topBar.Sprite()
+  searchAccount.w = pageLine1.w * 0.3
+  searchAccount.x = 55 + (siteTabs.x + (siteTabs.w/2)) + searchAccount.w/2
+
+  let sideBar = new Group()
+  sideBar.collider = 's'
+  sideBar.w = pageLine1.w / 5
+  sideBar.x = pageLine1.x + (sideBar.w * 0.6)
+  sideBar.h = 1
+    //place holder so its not a circle
+  sideBar.color = tabColor
+  sideBar.stroke = sideBar.color 
+
+  pageLine2.stroke = 0
+  
+  let projects = new sideBar.Sprite ()
+  projects.y = pageLine2.y + 45
+  projects.h = pageLine2.h * 0.05
+  let projectList = new sideBar.Sprite()
+  projectList.h = pageLine2.h * 0.3
+  projectList.y = (projects.y + projects.h) + projectList.h/2
+  let feedback = new sideBar.Sprite()
+  feedback.h = pageLine2.h * 0.1
+  feedback.y = (pageLine2.y + (pageLine2.h)) - (feedback.h/2) - 30
+
+
+  let listBar = new Group()
+  listBar.collider = 's'
+  listBar.color = tabColor
+  listBar.stroke = listBar.color
+
+  let listTabs = new listBar.Sprite()
+  listTabs.y = pageLine3.y - 25
+  listTabs.w = pageLine3.w
+  listTabs.x = pageLine3.x + (listTabs.w/2)
+  listTabs.h = siteTabs.h
+
+  let projectTitle = new listBar.Sprite()
+  projectTitle.y = listTabs.y - listTabs.h*2 
+  projectTitle.h = projects.h
+  projectTitle.w = pageLine3.w * 0.3
+  projectTitle.x = pageLine3.x + (projectTitle.w/2)
+
+  let projectMembers = new listBar.Sprite()
+  projectMembers.y = listTabs.y + listTabs.h*2.5
+  projectMembers.h = projects.h
+  projectMembers.w = pageLine3.w * 0.4
+  projectMembers.x = pageLine3.x + (projectMembers.w/2)
+  
+  let listSettings = new listBar.Sprite()
+  listSettings.y = listTabs.y + listTabs.h*2.5
+  listSettings.h = projects.h
+  listSettings.w = pageLine3.w * 0.4
+  // listSettings.x = (jiraEndX - (listSettings.w/2)) - 30
+  listSettings.x = (pageLine3.x + (pageLine3.w)) - (listSettings.w/2)
+
+ 
+
+
+
+
   //redundancy, necessary for new group? 
   pageList = new Group()
   pageList.collider='s'
@@ -41,9 +126,6 @@ function setup() {
   pageList.stroke=230
   pageList.strokeWeight=0.5
   pageList.layer = 2
-
-  textHeight = 30
-  numRows = 13
 
   pageList.x = jiraOriginX+575
   pageListWidth = jiraPage.w-400
@@ -83,12 +165,18 @@ function setup() {
 
 
   while (pageList.length<(numRows-1)){
-    let listLine = new pageList.Sprite()
+    listLine = new pageList.Sprite()
     listLine.y = ((jiraOriginY + 200) + (textHeight*(pageList.length)))
     listLine.w = pageListWidth
     listLine.h = 0
     listLine.stroke=230
   }
+
+  let cret = new listBar.Sprite()
+  cret.h = siteTabs.h
+  cret.y = 5+ (listEnd.y + (listEnd.h/2)) + cret.h/2
+  cret.w = pageLine3.w * 0.1
+  cret.x = pageLine3.x + (cret.w/2)
 
 
 
@@ -371,8 +459,6 @@ function setup() {
   sumArray[9].text = 'Should the team leader assign the new member such tasks?'
 
   
-
-
 
 
 
