@@ -99,7 +99,7 @@ function setup() {
   pageListColms.color=230
   pageListColms.stroke=230
   pageListColms.strokeWeight=0.5
-  pageListColms.layer=3
+  pageListColms.layer= 3
 
   pageListColms.w = 0
   pageListColms.h = textHeight*(numRows-1)
@@ -203,7 +203,7 @@ function setup() {
   statGroup.color = list.color
   statGroup.stroke = list.color 
   statGroup.collider= list.collider
-  statGroup.layer = list.layer
+  statGroup.layer = list.layer-1
 
   statGroup.h = list.h
   statGroup.w = colmStat.x - colmSum.x
@@ -217,6 +217,7 @@ function setup() {
     statText.y = statGroup.y + (statArray.length * textHeight)
   }
   statArray[0].text='Status'
+  statArray[0].layer = list.layer
 
   assignGroup = new Group()
   assignGroup.color = list.color
@@ -349,9 +350,27 @@ function setup() {
   assignIconArray[7].layer = newHireBox.layer+1
   assignIconArray[7].y = assignIconArray[7].y +10
 
+  //still have overlap issues
+  // let test = new sumGroup.Sprite()
+  // test.x = sumArray[2].x
+  // test.y = sumArray[2].y
+  // test.text = 'Another team member has just been added to a project.'
 
+  for(let i=0; i<10; i++){
+    sumArray[i].x = sumArray[i].x+20
+  }
 
+  sumArray[2].text = 'Another team member has just been added to a project.'
+  
+  sumArray[3].text = 'The new member is very skilled and can help the team meet'
+  sumArray[4].text = 'their goals and deadlines in a faster and more efficient way.'
+  sumArray[5].text = 'However, to do so, the amount of work they must do is'
+  sumArray[6].text = 'significantly greater than that of the other team members.'
+  sumArray[7].text = 'Yet, due to their capabilities, they will be able to'
+  sumArray[8].text = 'handle the amount of tasks given. '
+  sumArray[9].text = 'Should the team leader assign the new member such tasks?'
 
+  
 
 
 
