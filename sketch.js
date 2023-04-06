@@ -13,7 +13,7 @@ function setup() {
   jiraPage.color='white'
   jiraPage.stroke='black'
 
-  //700-(1000/2)=200. so origin is 200 >> instead of -/+ in refactoring. convery with w/h
+    //sprites rect mode center instead of corner. 700-(1000/2)=200. so origin is 200 >> instead of -/+ in refactoring. convery with w/h
   jiraOriginX= jiraPage.x-(jiraPage.w/2)
   jiraOriginY= jiraPage.y-(jiraPage.h/2)
   jiraEndX= jiraOriginX+jiraPage.w
@@ -38,12 +38,12 @@ function setup() {
   textHeight = 30
   numRows = 13
 
-  // listStartX = jiraOriginX+575
-  // listWidth = jiraPage.w-400
   pageList.x = jiraOriginX+575
-  // pageList.w = jiraPage.w-400
-    //makes them circles
   pageListWidth = jiraPage.w-400
+  // pageList.w = jiraPage.w-400
+  // pageList.h=0
+    //if I set outside of loop, wouldn't apply to all 
+
 
   // while (pageList.length<(numRows*2)){
   //   // let list = new pageList.Sprite([[x1, y],[x2, y]])
@@ -85,41 +85,41 @@ function setup() {
 
 
 
-  // numColms = 5
+
 
   pageListColms = new Group()
   pageListColms.collider='s'
   pageListColms.color=230
-  pageListColms.stroke=0
+  pageListColms.stroke=230
   pageListColms.strokeWeight=0.5
 
-  // pageListColms.y = 460
-  //first list line y -text height. move below h to use h (why adding extra text height?)
   pageListColms.w = 0
   pageListColms.h = textHeight*(numRows-1)
   pageListColms.y = (jiraOriginY + 200) + (pageListColms.h/2) +textHeight
+      // pageListColms.y = 460
+      //first list line y -text height. move below h to use h (why adding extra text height?)
 
-  //pageList.x = jiraOriginX+575. pageList.x - ( pageListWidth = jiraPage.w-400 /2)
+
   let colmKey = new pageListColms.Sprite()
-  // colmKey.x= 550
-  // colmKey.x = (pageList.x - (pageList.w/2)) + 100
   colmKey.x = pageList.x - 250
+      // colmKey.x= 550
+      // colmKey.x = (pageList.x - (pageList.w/2)) + 100
+          //pageList.x = jiraOriginX+575; pageList.x - ( pageListWidth = jiraPage.w-400 /2)
   let colmSum = new pageListColms.Sprite()
   colmSum.x = 750
   let colmStat = new pageListColms.Sprite()
   colmStat.x = 850
   let colmAssign = new pageListColms.Sprite()
   colmAssign.x = 1000
-  // let colmPrio = new pageListColms.Sprite()
-  // colmPrio.x = 1050
 
-  //refactor into array?
-  // let colmArray = []
-  // while(colmArray.length < 4){
-  //   let colm = new pageListColms.Sprite()
-  // }
 
-  // colm[1].x=750
+    //refactor into array?
+    // let colmArray = []
+    // while(colmArray.length < 4){
+    //   let colm = new pageListColms.Sprite()
+    // }
+
+    // colm[1].x=750
 
 
   // while (pageListColms.length<(numColms-1)){
@@ -132,10 +132,33 @@ function setup() {
   // }
 
 
- 
+// let key = []
+//   while (key.length<3){
+//     key.push(new Sprite())
+//   }
+
+//   key[1].text='test'
+//   key.color = 255
+    // also doesnt work bc not group, just array (doesnt work inside loop either)
+  
+
+// let keyGroup = new Group()
+let key = []
+  
+
+  while (key.length<3){
+    // let keyBox = new keyGroup.Sprite()
 
 
+    key.push(new Sprite())
 
+    // key.color = 255
+  }
+
+  // key.push(keyBox)
+
+  key[1].text='test'
+  // key.color = 255
 
 
 }
