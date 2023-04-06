@@ -5,6 +5,8 @@ let pageLine, pageLine1, pageLine2, pageLine3
 let numRows, pageList, textHeight, pageListWidth;
 let listEnd, listEndY;
 
+let keyGroup, key;
+
 function setup() {
   createCanvas(1400, 2400);
 
@@ -142,23 +144,18 @@ function setup() {
     // also doesnt work bc not group, just array (doesnt work inside loop either)
   
 
-// let keyGroup = new Group()
-let key = []
-  
+  keyGroup = new Group()
+  keyGroup.color = 255 
+  keyGroup.x=300
 
+  key = []
   while (key.length<3){
-    // let keyBox = new keyGroup.Sprite()
+    keyGroup.y = 700+(key.length * 50)
+    key.push(new keyGroup.Sprite())
 
-
-    key.push(new Sprite())
-
-    // key.color = 255
   }
-
-  // key.push(keyBox)
-
   key[1].text='test'
-  // key.color = 255
+
 
 
 }
