@@ -2,19 +2,42 @@
 let jiraPage, jiraOriginX, jiraOriginY, jiraEndX, jiraEndY;
 let pageLine, pageLine1, pageLine2, pageLine3
 
-let numRows, pageList, textHeight, pageListWidth;
-let listEnd, listEndY;
+let numRows, textHeight, tabColor
 
-let keyGroup, keyArray, key, keyGY;
+let pageListWidth;
 
-let newHireBox;
-let listLine
+let key, keyGY;
+
+let topBar, siteIcon, siteLogo, siteTabs, searchAccount
+let sideBar, projects, projectList, feedback
+let listBar, listTabs, projectTitle, projectMembers, listSettings, creat
+let pageList, listEndY, listEnd, listLine, pageListColms
+
+let colmKey, colmSum, colmStat, colmAssign, colmPrio
+let list, listOriginY
+let keyGroup, sumGroup, statGroup,assignGroup, prioGroup
+let keyArray, sumArray, statArray, assignArray, prioArray
+let keyText, sumText, statText, assignText, prioText;
+
+let assignIconGroup, assignIconArray, assignIconText;
+let personSelect, dropDownBox, searchBox, instructionBox, newHireBox, hire1Box, hire2Box;
+
+let toggleNewHire = false
+let toggleHire1 = false
+let toggleHire2 = false
+let toggleAssignBox = true
+
+let toggleTest1 = false
+let toggleTest2 = false
+
 
 function setup() {
   createCanvas(1400, 2400);
 
   textHeight = 30
   numRows = 13
+  tabColor = 240
+  //can assign these sprites images
 
   jiraPage = new Sprite(700, 400, 1000, 700)
   jiraPage.collider='s'
@@ -38,31 +61,30 @@ function setup() {
   pageLine2 = new pageLine.Sprite([[jiraOriginX+250, jiraOriginY+50], [jiraOriginX+250, jiraEndY-2]])
   pageLine3 = new pageLine.Sprite([[jiraOriginX+275, jiraOriginY+150], [jiraEndX-25, jiraOriginY+150]])
 
-  tabColor = 240
-  //can assign these sprites images
 
-  let topBar = new Group()
+  topBar = new Group()
   topBar.collider = 's'
   topBar.color = tabColor
   topBar.stroke = topBar.color
   topBar.y = pageLine1.y - 25
   topBar.h = textHeight * 0.75
-  let siteIcon = new topBar.Sprite()
-  siteIcon.x = jiraOriginX + 35
-  siteIcon.w = pageLine1.w * 0.025
-  siteIcon.h = siteIcon.w 
-  let siteLogo = new topBar.Sprite()
-  siteLogo.w = pageLine1.w * 0.25
-  // siteLogo.x = jiraOriginX + (siteLogo.w*0.75)
-  siteLogo.x = 15 + (siteIcon.x + (siteIcon.w/2)) + siteLogo.w/2
-  let siteTabs = new topBar.Sprite()
-  siteTabs.w = pageLine1.w * 0.3
-  siteTabs.x = 15 + (siteLogo.x + (siteLogo.w/2)) + siteTabs.w/2
-  let searchAccount = new topBar.Sprite()
-  searchAccount.w = pageLine1.w * 0.3
-  searchAccount.x = 55 + (siteTabs.x + (siteTabs.w/2)) + searchAccount.w/2
+  
+  siteIcon = new topBar.Sprite()
+    siteIcon.x = jiraOriginX + 35
+    siteIcon.w = pageLine1.w * 0.025
+    siteIcon.h = siteIcon.w 
+  siteLogo = new topBar.Sprite()
+    siteLogo.w = pageLine1.w * 0.25
+    // siteLogo.x = jiraOriginX + (siteLogo.w*0.75)
+    siteLogo.x = 15 + (siteIcon.x + (siteIcon.w/2)) + siteLogo.w/2
+  siteTabs = new topBar.Sprite()
+    siteTabs.w = pageLine1.w * 0.3
+    siteTabs.x = 15 + (siteLogo.x + (siteLogo.w/2)) + siteTabs.w/2
+  searchAccount = new topBar.Sprite()
+    searchAccount.w = pageLine1.w * 0.3
+    searchAccount.x = 55 + (siteTabs.x + (siteTabs.w/2)) + searchAccount.w/2
 
-  let sideBar = new Group()
+  sideBar = new Group()
   sideBar.collider = 's'
   sideBar.w = pageLine1.w / 5
   sideBar.x = pageLine1.x + (sideBar.w * 0.6)
@@ -70,53 +92,48 @@ function setup() {
     //place holder so its not a circle
   sideBar.color = tabColor
   sideBar.stroke = sideBar.color 
-
-  pageLine2.stroke = 0
   
-  let projects = new sideBar.Sprite ()
-  projects.y = pageLine2.y + 45
-  projects.h = pageLine2.h * 0.05
-  let projectList = new sideBar.Sprite()
-  projectList.h = pageLine2.h * 0.3
-  projectList.y = (projects.y + projects.h) + projectList.h/2
-  let feedback = new sideBar.Sprite()
-  feedback.h = pageLine2.h * 0.1
-  feedback.y = (pageLine2.y + (pageLine2.h)) - (feedback.h/2) - 30
+  projects = new sideBar.Sprite ()
+    projects.y = pageLine2.y + 45
+    projects.h = pageLine2.h * 0.05
+  projectList = new sideBar.Sprite()
+    projectList.h = pageLine2.h * 0.3
+    projectList.y = (projects.y + projects.h) + projectList.h/2
+  feedback = new sideBar.Sprite()
+    feedback.h = pageLine2.h * 0.1
+    feedback.y = (pageLine2.y + (pageLine2.h)) - (feedback.h/2) - 30
 
+ 
 
-  let listBar = new Group()
+  listBar = new Group()
   listBar.collider = 's'
   listBar.color = tabColor
   listBar.stroke = listBar.color
 
-  let listTabs = new listBar.Sprite()
+  listTabs = new listBar.Sprite()
   listTabs.y = pageLine3.y - 25
   listTabs.w = pageLine3.w
   listTabs.x = pageLine3.x + (listTabs.w/2)
   listTabs.h = siteTabs.h
 
-  let projectTitle = new listBar.Sprite()
+  projectTitle = new listBar.Sprite()
   projectTitle.y = listTabs.y - listTabs.h*2 
   projectTitle.h = projects.h
   projectTitle.w = pageLine3.w * 0.3
   projectTitle.x = pageLine3.x + (projectTitle.w/2)
 
-  let projectMembers = new listBar.Sprite()
+  projectMembers = new listBar.Sprite()
   projectMembers.y = listTabs.y + listTabs.h*2.5
   projectMembers.h = projects.h
   projectMembers.w = pageLine3.w * 0.4
   projectMembers.x = pageLine3.x + (projectMembers.w/2)
   
-  let listSettings = new listBar.Sprite()
+  listSettings = new listBar.Sprite()
   listSettings.y = listTabs.y + listTabs.h*2.5
   listSettings.h = projects.h
   listSettings.w = pageLine3.w * 0.4
   // listSettings.x = (jiraEndX - (listSettings.w/2)) - 30
   listSettings.x = (pageLine3.x + (pageLine3.w)) - (listSettings.w/2)
-
- 
-
-
 
 
   //redundancy, necessary for new group? 
@@ -172,12 +189,11 @@ function setup() {
     listLine.stroke=230
   }
 
-  let cret = new listBar.Sprite()
-  cret.h = siteTabs.h
-  cret.y = 5+ (listEnd.y + (listEnd.h/2)) + cret.h/2
-  cret.w = pageLine3.w * 0.1
-  cret.x = pageLine3.x + (cret.w/2)
-
+  creat = new listBar.Sprite()
+  creat.h = siteTabs.h
+  creat.y = 5+ (listEnd.y + (listEnd.h/2)) + creat.h/2
+  creat.w = pageLine3.w * 0.1
+  creat.x = pageLine3.x + (creat.w/2)
 
 
 
@@ -196,20 +212,21 @@ function setup() {
       //first list line y -text height. move below h to use h (why adding extra text height?)
 
 
-  let colmKey = new pageListColms.Sprite()
-  colmKey.x = pageList.x - 250
+  colmKey = new pageListColms.Sprite()
+    colmKey.x = pageList.x - 250
       // colmKey.x= 550
       // colmKey.x = (pageList.x - (pageList.w/2)) + 100
           //pageList.x = jiraOriginX+575; pageList.x - ( pageListWidth = jiraPage.w-400 /2)
-  let colmSum = new pageListColms.Sprite()
-  colmSum.x = 750
-  let colmStat = new pageListColms.Sprite()
-  colmStat.x = 850
-  let colmAssign = new pageListColms.Sprite()
-  colmAssign.x = 1000
-  let colmPrio = new pageListColms.Sprite()
-  colmPrio.x = 1075
-  colmPrio.visible = false
+  colmSum = new pageListColms.Sprite()
+    colmSum.x = 750
+  colmStat = new pageListColms.Sprite()
+    colmStat.x = 850
+  colmAssign = new pageListColms.Sprite()
+    colmAssign.x = 1000
+  colmPrio = new pageListColms.Sprite()
+    colmPrio.x = 1075
+    colmPrio.visible = false
+
 
     //refactor into array?
     // let colmArray = []
@@ -238,12 +255,13 @@ function setup() {
 //   key.color = 255
     // also doesnt work bc not group, just array (doesnt work inside loop either)
   
-  let list = new Group()
+  list = new Group()
   list.color = 255
   list.stroke = list.color
   list.collider = 's'
   list.layer= 1
   list.h=textHeight
+
 
   keyGroup = new Group()
   keyGroup.color = list.color
@@ -260,12 +278,11 @@ function setup() {
 
   keyArray = []
   while (keyArray.length< (numRows-1)){
-    let keyText = new keyGroup.Sprite()
+    keyText = new keyGroup.Sprite()
     keyArray.push(keyText)
     keyText.y = keyGroup.y + (keyArray.length * textHeight)
   }
   keyArray[0].text='# Key'
-
 
 
   sumGroup = new Group()
@@ -281,11 +298,12 @@ function setup() {
 
   sumArray = []
   while (sumArray.length<(numRows-1)){
-    let sumText = new sumGroup.Sprite()
+    sumText = new sumGroup.Sprite()
     sumArray.push(sumText)
     sumText.y = sumGroup.y + (sumArray.length * textHeight)
   }
   sumArray[0].text='Summary'
+
   
   statGroup = new Group()
   statGroup.color = list.color
@@ -300,12 +318,13 @@ function setup() {
 
   statArray = []
   while (statArray.length<(numRows-1)){
-    let statText = new statGroup.Sprite()
+    statText = new statGroup.Sprite()
     statArray.push(statText)
     statText.y = statGroup.y + (statArray.length * textHeight)
   }
   statArray[0].text='Status'
   statArray[0].layer = list.layer
+  
 
   assignGroup = new Group()
   assignGroup.color = list.color
@@ -320,7 +339,7 @@ function setup() {
 
   assignArray = []
   while (assignArray.length<(numRows-1)){
-    let assignText = new assignGroup.Sprite()
+    assignText = new assignGroup.Sprite()
     assignArray.push(assignText)
     assignText.y = assignGroup.y + (assignArray.length * textHeight)
   }
@@ -339,7 +358,7 @@ function setup() {
 
   prioArray = []
   while (prioArray.length<(numRows-1)){
-    let prioText = new prioGroup.Sprite()
+    prioText = new prioGroup.Sprite()
     prioArray.push(prioText)
     prioText.y = prioGroup.y + (prioArray.length * textHeight)
   }
@@ -353,49 +372,53 @@ function setup() {
   assignIconGroup.stroke = list.color 
   assignIconGroup.collider= list.collider
   assignIconGroup.layer = list.layer
-
   assignIconGroup.d = list.h-5
   // assignIconGroup.w = colmAssign.x - colmStat.x
   assignIconGroup.x = colmStat.x + 25
   assignIconGroup.y= listOriginY - (assignIconGroup.d/2) - 2.5
 
   assignIconArray = []
-  while (assignIconArray.length<(numRows-3)){
-    let assignIconText = new assignIconGroup.Sprite()
+  while (assignIconArray.length<(numRows)){
+    assignIconText = new assignIconGroup.Sprite()
     assignIconArray.push(assignIconText)
     assignIconText.y = assignIconGroup.y + ((assignIconArray.length+1) * textHeight)
   }
+  assignIconArray[1].visible = false
+  assignIconArray[4].visible = false
+  assignIconArray[6].visible = false
+  assignIconArray[7].visible = false
 
 
-  let personSelect = new Group()
+
+  personSelect = new Group()
   personSelect.color=255
   personSelect.stroke=0
   personSelect.collider = 's'
   personSelect.layer = 4
 
-  let dropDownBox = new personSelect.Sprite()
+  dropDownBox = new personSelect.Sprite()
   dropDownBox.x = assignArray[4].x
   dropDownBox.y = assignArray[6].y + (assignGroup.h/2)
   dropDownBox.w = assignGroup.w
   dropDownBox.h = (assignGroup.h * 5) + (assignGroup.h/2)
   dropDownBox.color = 255
 
-  let searchBox = new personSelect.Sprite()
+  searchBox = new personSelect.Sprite()
   searchBox.x = assignArray[4].x
   searchBox.y = assignArray[4].y
   searchBox.w = assignGroup.w
   searchBox.h = assignGroup.h
-  searchBox.layer = personSelect.layer+1
+  searchBox.layer = personSelect.layer + 1
   searchBox.color = 210
   searchBox.textColor = 0
   searchBox.text = 'Search for a person...      '
 
-  let instructionBox = new personSelect.Sprite()
+  instructionBox = new personSelect.Sprite()
   instructionBox.x = assignArray[4].x
   instructionBox.y = assignArray[5].y
-  instructionBox.w = assignGroup.w -8
-  instructionBox.h = assignGroup.h -8
-  instructionBox.layer = personSelect.layer+1
+  instructionBox.w = assignGroup.w - 8
+  instructionBox.h = assignGroup.h - 8
+  instructionBox.layer = personSelect.layer + 1
   instructionBox.color = 255
   instructionBox.stroke = instructionBox.color 
   instructionBox.textSize = 10
@@ -404,39 +427,39 @@ function setup() {
   newHireBox = new personSelect.Sprite()
   newHireBox.x = assignArray[4].x
   newHireBox.y = assignArray[7].y + 7
-  newHireBox.w = assignGroup.w - 2
-  newHireBox.h = assignGroup.h +5
+  newHireBox.w = assignGroup.w - 12
+  newHireBox.h = assignGroup.h + 5
   newHireBox.color = 255
   newHireBox.stroke = 255
   newHireBox.layer = personSelect.layer+1
   newHireBox.text = 'new hire'
-  assignIconArray[6].layer = newHireBox.layer+1
-  assignIconArray[6].y = assignIconArray[6].y +7
+  assignIconArray[11].layer = newHireBox.layer+1
+  assignIconArray[11].y = assignIconArray[6].y +7
 
   hire1Box = new personSelect.Sprite()
   hire1Box.x = assignArray[4].x
   hire1Box.y = assignArray[6].y + 3
-  hire1Box.w = assignGroup.w - 2
-  hire1Box.h = assignGroup.h +5
+  hire1Box.w = assignGroup.w - 12
+  hire1Box.h = assignGroup.h + 5
   hire1Box.color = 255
   hire1Box.stroke = 255
   hire1Box.layer = personSelect.layer+1
   hire1Box.text = 'hire 1'
-  assignIconArray[5].layer = newHireBox.layer+1
-  assignIconArray[5].y = assignIconArray[5].y +3
+  assignIconArray[10].layer = hire1Box.layer+1
+  assignIconArray[10].y = assignIconArray[5].y +3
 
 
   hire2Box = new personSelect.Sprite()
   hire2Box.x = assignArray[4].x
   hire2Box.y = assignArray[8].y + 10
-  hire2Box.w = assignGroup.w - 2
-  hire2Box.h = assignGroup.h +5
+  hire2Box.w = assignGroup.w - 12
+  hire2Box.h = assignGroup.h + 5
   hire2Box.color = 255
   hire2Box.stroke = 255
   hire2Box.layer = personSelect.layer+1
-  hire2Box.text = 'hire 1'
-  assignIconArray[7].layer = newHireBox.layer+1
-  assignIconArray[7].y = assignIconArray[7].y +10
+  hire2Box.text = 'hire 2'
+  assignIconArray[12].layer = hire2Box.layer+1
+  assignIconArray[12].y = assignIconArray[7].y +10
 
   //still have overlap issues
   // let test = new sumGroup.Sprite()
@@ -462,8 +485,6 @@ function setup() {
 
 
 
-
-
 }
 
 
@@ -477,40 +498,84 @@ function draw() {
   // newHireBox.y = assignArray[7].y +7
   // newHireBox.w = assignGroup.w -10
 
-  if(mouseX > assignGroup.x && mouseX < (assignGroup.x + assignGroup.w)){
-    if (mouseY  > newHireBox.y && mouseY < (newHireBox.y + newHireBox.h)){
-      newHireBox.w = assignGroup.w -10
+
+  newHireBox.color = 255
+  hire1Box.color = 255
+  hire2Box.color = 255
+
+  if (mouseX > (assignGroup.x - (assignGroup.w/2)) && mouseX < (assignGroup.x + (assignGroup.w/2))){
+    if (mouseY  > (newHireBox.y - (newHireBox.h/2)) && mouseY < (newHireBox.y + (newHireBox.h/2))){
       newHireBox.color = 230
-      hire1Box.w = assignGroup.w - 2
-      hire1Box.color = 255
-      hire2Box.w = assignGroup.w - 2
-      hire1Box.color = 255
-
-    } else if (mouseY  > hire1Box.y && mouseY < (hire1Box.y + hire1Box.h)) {
-      hire1Box.w = assignGroup.w - 10
+    } else if (mouseY  > (hire1Box.y - (hire1Box.h/2)) && mouseY < (hire1Box.y + (hire1Box.h/2))) {
       hire1Box.color = 230
-      newHireBox.w = assignGroup.w - 2
-      newHireBox.color = 255
-      hire2Box.w = assignGroup.w - 2
-      hire2Box.color = 255
-    } else if (mouseY  > hire2Box.y && mouseY < (hire2Box.y + hire2Box.h)) {
-      hire2Box.w = assignGroup.w - 10
+    } else if (mouseY  > (hire2Box.y - (hire2Box.h/2)) && mouseY < (hire2Box.y + (hire2Box.h/2))){
       hire2Box.color = 230
-      newHireBox.w = assignGroup.w - 2
-      newHireBox.color = 255
-      hire1Box.w = assignGroup.w - 2
-      hire1Box.color = 255
-    } else {
-      newHireBox.w = assignGroup.w - 2
-      newHireBox.color = 255
-      hire1Box.w = assignGroup.w - 2
-      hire1Box.color = 255
-      hire2Box.w = assignGroup.w - 2
-      hire2Box.color = 255
+    } 
+  } 
+
+  let text
+
+  if (!toggleAssignBox){
+    personSelect.visible = false
+    assignIconArray[10].visible = false
+    assignIconArray[11].visible = false
+    assignIconArray[12].visible = false
+  }
+  if(toggleAssignBox){
+    personSelect.visible = true
+    assignIconArray[10].visible = true
+    assignIconArray[11].visible = true
+    assignIconArray[12].visible = true
+  } 
+
+  if (toggleHire1){
+    assignIconArray[3].color = assignIconArray[10].color
+    assignArray[4].text = 'hire 1'
+  } 
+  if (toggleNewHire){
+    assignIconArray[3].color = assignIconArray[11].color
+    assignArray[4].text = 'new hire'
+  }
+  if (toggleHire2){
+    assignIconArray[3].color = assignIconArray[12].color
+    assignArray[4].text = 'hire 2'
+  }
+
+  
+
+}
+
+
+function mousePressed(){
+
+  if (mouseX > (assignGroup.x - (assignGroup.w/2)) && mouseX < (assignGroup.x + (assignGroup.w/2))) {
+    
+    if (mouseY  > (newHireBox.y - (newHireBox.h/2)) && mouseY < (newHireBox.y + (newHireBox.h/2))){
+      toggleNewHire = !toggleNewHire
+      toggleAssignBox = !toggleAssignBox
+      toggleHire1 = false
+      toggleHire2 = false
+    } 
+    if (mouseY  > (hire1Box.y - (hire1Box.h/2)) && mouseY < (hire1Box.y + (hire1Box.h/2))){
+      toggleHire1 = !toggleHire1
+      toggleAssignBox = !toggleAssignBox
+      toggleNewHire = false
+      toggleHire2 = false
+
+    } 
+    if (mouseY  > (hire2Box.y - (hire2Box.h/2)) && mouseY < (hire2Box.y + (hire2Box.h/2))) {
+      toggleHire2 = !toggleHire2
+      // toggleHire2 = true
+      toggleAssignBox = !toggleAssignBox
+
+      toggleNewHire = false
+      toggleHire1 = false
     }
+  }
+
+  if (mouseX > (assignArray[4].x - (assignArray[4].w)) && mouseX < (assignArray[4].x + (assignArray[4].w/2)) && mouseY > (assignArray[4].y - (assignArray[4].h/2)) && mouseY < (assignArray[4].y + (assignArray[4].h/2))){
+    toggleAssignBox = !toggleAssignBox
+  }
+  
+
 }
-
-
-}
-
-
